@@ -10,6 +10,14 @@ const PORT = process.env.PORT || 3000;
 
 const app = express();
 
+// Serve static files from the Vite build directory
+app.use(express.static(path.join(__dirname, 'path/to/your/vite-app/dist')));
+
+// Catch-all route to serve the Vite app for other routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'path/to/your/vite-app/dist/index.html'));
+});
+
 const prodOrigins = [process.env.ORIGIN_1, process.env.ORIGIN_2];
 const devOrigin = ['http://localhost:5173'];
 const allowedOrigins =
