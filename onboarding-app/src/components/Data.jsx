@@ -1,5 +1,6 @@
 //Section 3 Data Table
 import { useEffect, useState } from 'react';
+import { API_URL } from '../config';
 
 const Data = () => {
   const [userData, setUserData] = useState([]);
@@ -7,7 +8,7 @@ const Data = () => {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const response = await fetch('http://localhost:3000/users');
+        const response = await fetch(`${API_URL}users`);
         const data = await response.json();
         setUserData(data);
       } catch (err) {

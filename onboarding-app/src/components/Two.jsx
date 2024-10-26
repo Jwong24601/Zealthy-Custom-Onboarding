@@ -4,10 +4,11 @@ import Progress from './Progress';
 import AboutMe from './AboutMe';
 import Address from './Address';
 import Birthdate from './Birthdate';
+import { API_URL } from '../config';
 
 const Two = () => {
   const navigate = useNavigate();
-  const [state, setState] = useState([]);
+  const [state, setState] = useState([]); //component configuration for page
   const [id, setId] = useState();
   const [user, setUser] = useState('');
 
@@ -48,7 +49,7 @@ const Two = () => {
   useEffect(() => {
     const getState = async () => {
       try {
-        const response = await fetch('http://localhost:3000/admin/state');
+        const response = await fetch(`${API_URL}admin/state`);
         const data = await response.json();
         if (!data) setState(['birthdate', 'address']);
         else {
@@ -81,16 +82,13 @@ const Two = () => {
       }
     });
     try {
-      const response = await fetch(
-        `http://localhost:3000/users/update/${user}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userData),
-        }
-      );
+      const response = await fetch(`${API_URL}users/update/${user}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
 
       if (!response.ok) {
         throw new Error('Failed to save data');

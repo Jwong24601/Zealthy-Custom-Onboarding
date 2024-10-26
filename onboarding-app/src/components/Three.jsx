@@ -3,6 +3,7 @@ import Progress from './Progress';
 import AboutMe from './AboutMe';
 import Address from './Address';
 import Birthdate from './Birthdate';
+import { API_URL } from '../config';
 // import { useNavigate } from 'react-router-dom'; No need if not navigating to another page after done.
 
 const Three = () => {
@@ -47,7 +48,7 @@ const Three = () => {
   useEffect(() => {
     const getState = async () => {
       try {
-        const response = await fetch('http://localhost:3000/admin/state');
+        const response = await fetch(`${API_URL}admin/state`);
         const data = await response.json();
         if (!data) setState(['aboutMe']);
         else {
@@ -80,17 +81,13 @@ const Three = () => {
       }
     });
     try {
-      console.log(userData);
-      const response = await fetch(
-        `http://localhost:3000/users/update/${user}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userData),
-        }
-      );
+      const response = await fetch(`${API_URL}users/update/${user}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
 
       if (!response.ok) {
         throw new Error('Failed to save data');

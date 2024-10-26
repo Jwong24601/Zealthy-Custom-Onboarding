@@ -1,5 +1,6 @@
 //Section 2 Admin
 import { useState, useEffect } from 'react';
+import { API_URL } from '../config';
 
 const Admin = () => {
   const components = ['birthdate', 'address', 'aboutMe'];
@@ -9,7 +10,7 @@ const Admin = () => {
   //Fetch current configuration on load
   useEffect(() => {
     const getState = async () => {
-      const response = await fetch('http://localhost:3000/admin/state');
+      const response = await fetch(`${API_URL}admin/state`);
       const data = await response.json();
       if (data) {
         setPage2(data.page2Components || []);
@@ -32,7 +33,7 @@ const Admin = () => {
   const handleSave = async () => {
     try {
       const data = { page2Components, page3Components };
-      const response = await fetch('http://localhost:3000/admin/state', {
+      const response = await fetch(`${API_URL}admin/state`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

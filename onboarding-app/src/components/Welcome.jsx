@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Progress from './Progress';
+import { API_URL } from '../config';
 
 const Welcome = () => {
   const [email, setEmail] = useState('');
@@ -10,12 +11,10 @@ const Welcome = () => {
   useEffect(() => {
     const getSession = async () => {
       try {
-        const responseState = await fetch('http://localhost:3000/admin/state');
+        const responseState = await fetch(`${API_URL}admin/state`);
         const data = await responseState.json();
         if (data.email) {
-          const responseUser = await fetch(
-            `http://localhost:3000/users/${data.email}`
-          );
+          const responseUser = await fetch(`${API_URL}users/${data.email}`);
           const d = await responseUser.json();
           if (d.progress === 1) navigate('/2');
           if (d.progress === 2) navigate('/3');
@@ -32,7 +31,7 @@ const Welcome = () => {
     if (email && password) {
       try {
         const data = { email, password };
-        const response = await fetch('http://localhost:3000/users/onboard', {
+        const response = await fetch(`${API_URL}users/onboard`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
